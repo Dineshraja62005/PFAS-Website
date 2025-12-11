@@ -1,0 +1,121 @@
+.split-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.pane-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Sits between the video and the text */
+}
+
+/* Specific overlay for the white pane */
+.white-pane .pane-overlay {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+}
+
+.split-pane {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    padding: 2rem 4rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.white-pane {
+    background-color: #ffffff;
+    position: relative; /* Needed to position the video inside */
+}
+
+/* --- Content & Animation Styling --- */
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.top-content,
+.bottom-content {
+    text-align: center;
+    max-width: 1200px;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+    position: relative;
+    z-index: 3; /* Ensure content is on top of overlays */
+}
+
+.top-content.is-visible,
+.bottom-content.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bottom-content.is-visible {
+    transition-delay: 0.3s;
+}
+
+/* --- Unified Typography --- */
+.animated-text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 3rem;
+    font-weight: 300;
+    line-height: 1.3;
+    color: #404040;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.animated-text strong {
+    font-weight: 700;
+    color: #000;
+}
+
+/* --- Heartbeat Animation (for top pane only) --- */
+@keyframes heartbeat-glow {
+    0%,
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 4px rgba(231, 76, 60, 0.2);
+    }
+    10% {
+        transform: scale(1.03);
+        text-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+    }
+    20% {
+        transform: scale(1);
+        text-shadow: 0 0 4px rgba(231, 76, 60, 0.2);
+    }
+    30% {
+        transform: scale(1.06);
+        text-shadow: 0 0 14px rgba(231, 76, 60, 0.7);
+    }
+    50% {
+        transform: scale(1);
+        text-shadow: 0 0 4px rgba(231, 76, 60, 0.2);
+    }
+}
+
+.highlight-word {
+    font-weight: 700;
+    color: #222;
+    display: inline-block;
+}
+
+.top-content.is-visible .highlight-word {
+    animation: heartbeat-glow 2.5s ease-in-out infinite;
+    animation-delay: 1.5s;
+}

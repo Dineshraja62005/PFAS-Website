@@ -1,0 +1,59 @@
+.glow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0; /* Ensures it stays in the back */
+    background-color: #000000; /* Solid Black background */
+}
+
+.glow-blob {
+    position: absolute;
+    border-radius: 50%;
+    /* Change mix-blend-mode to 'overlay' or 'soft-light' for a subtler grey effect,
+       or keep 'screen' if you want brighter grey spots */
+    mix-blend-mode: overlay;
+    filter: blur(80px);   /* Slightly increased blur for softness */
+    opacity: 0.3; /* Reduced opacity for subtlety */
+}
+
+/* Define the first blob's color (dark grey), size, and animation */
+.glow-blob:nth-child(1) {
+    width: 400px; /* Adjusted size */
+    height: 400px;
+    left: 15%;
+    top: 20%;
+    background: rgba(100, 100, 100, 0.4); /* Dark grey with alpha */
+    animation: float-blob-1 18s infinite alternate ease-in-out; /* Slightly slower animation */
+}
+
+/* Define the second blob's color (slightly different dark grey), size, and animation */
+.glow-blob:nth-child(2) {
+    width: 500px; /* Adjusted size */
+    height: 500px;
+    right: 10%;
+    bottom: 10%;
+    background: rgba(80, 80, 80, 0.3); /* Different dark grey with alpha */
+    animation: float-blob-2 22s infinite alternate ease-in-out; /* Slightly slower animation */
+}
+
+/* Keyframe animations to move the blobs around (can keep as is or adjust speed/movement) */
+@keyframes float-blob-1 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(80px, 60px) scale(1.1); /* Adjusted movement */
+    }
+}
+
+@keyframes float-blob-2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(-60px, -40px) scale(1.2); /* Adjusted movement */
+    }
+}

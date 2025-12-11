@@ -1,0 +1,17 @@
+.dark-pane {
+    background-color: #000000; /* This provides the solid black background */
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.dark-bg-text {
+    color: #999;
+}
+
+.dark-bg-text strong {
+    color: #fff;
+}

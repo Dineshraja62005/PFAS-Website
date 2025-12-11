@@ -1,0 +1,24 @@
+.fading-text-container {
+    display: inline-block;
+}
+
+.fading-letter {
+    /* 1. Increase the base opacity so letters are never too dim */
+    opacity: 0.4;
+    transition: opacity 0.4s ease;
+}
+
+.fading-text-container.animate .fading-letter {
+    /* 2. Speed up the animation duration significantly (from 3.5s to 1.5s) */
+    animation: fade-in-out 1.5s ease-in-out infinite;
+}
+
+@keyframes fade-in-out {
+    0%, 100% {
+        /* 3. Match the new base opacity */
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 1;
+    }
+}

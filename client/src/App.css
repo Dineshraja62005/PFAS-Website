@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+:root {
+  --text-color: #333333;
+  --section-bg-color: #f8f9fa;
+  --border-color: #dee2e6;
+  --accent-color: #2E8B57;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #ffffff;
+  color: var(--text-color);
+}
+
+.content-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+
+/* --- NAVIGATION BAR --- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: fit-content;
+  transition: background-color 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.site-header.scrolled {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-header.hidden {
+  transform: translateY(-100%);
+}
+
+
+/* --- MAIN CONTENT & FOOTER --- */
+main {
+  padding: 4rem 0;
+}
+
+footer {
+  background-color: var(--section-bg-color);
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+
+
+/* --- ACCESSIBILITY --- */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid #6495ED;
+  outline-offset: 2px;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+.mobile-nav-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 1rem;
+  }
+
+  .main-nav,
+  .header-actions {
+    display: none;
+  }
+
+  .mobile-nav-toggle {
+    display: block;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2000;
+  }
+
+  .mobile-menu-open .main-nav,
+  .mobile-menu-open .header-actions {
+    display: flex;
+  }
+
+  .mobile-menu-open .main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mobile-menu-open .main-nav ul {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .mobile-menu-open .main-nav a {
+    font-size: 1.8rem;
+  }
+
+  .mobile-menu-open .header-actions {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .mobile-menu-open .mobile-nav-toggle {
+    position: fixed;
+    top: 25px;
+    right: 2rem;
+    z-index: 2001;
+  }
+}
+
+
+/* This will be our main scrolling container */
+.scroll-container {
+  /* Allows the container to be scrolled */
+  overflow-y: scroll;
+  /* Crucially, it must take up the full height of the viewport */
+  height: 100vh;
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* This class will be applied to each section we want to snap to */
+.scroll-section {
+  /* Defines this as a snap point */
+  scroll-snap-align: start;
+  /* Each snap section should fill the viewport for the best effect */
+  height: 100vh;
+  /* Ensures content within the section is positioned correctly */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Add this new class to the end of App.css */
+
+/* ... your existing .scroll-container and .scroll-section styles ... */
+
+/* This new class will wrap all content AFTER the snap pages */
+.normal-scroll {
+  /* Allows this specific section to scroll internally */
+  overflow-y: auto;
+  /* It is still a snap point itself */
+  scroll-snap-align: start;
+  /* It needs its own background color */
+  background-color: #ffffff;
+}
+
+/* Add this new rule to the end of App.css */
+
+/* This targets the VERY FIRST .scroll-section and gives it a dark background */
+.scroll-container > .scroll-section:first-child {
+  background-color: #1a1a1a;
+}
+
+/* Add this rule to the bottom of the file for Chrome/Safari */
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+#map-section {
+  background-color: #000000; /* Deep black/grey */
+  color: rgb(0, 0, 0); /* Ensure any text in this section is white */
+  justify-content: center; /* Center the map vertically */
+}

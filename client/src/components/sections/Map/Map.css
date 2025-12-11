@@ -1,0 +1,304 @@
+.map-wrap {
+  position: relative;
+  width: 100%;
+  height: 65vh;
+
+  /* --- LIGHT MAP IN DARK ROOM STYLING --- */
+  border-radius: 16px;
+  border: 4px solid rgba(255, 255, 255, 0.1); 
+  
+  /* Changed background to dark grey to avoid white flash/gap issues */
+  background: #1a1a1a; 
+  
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.map {
+  position: absolute;
+  /* KEY FIX: Explicitly anchor the map to the top-left */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Ensure it stays behind overlay controls */
+}
+
+/* Hover Effects */
+.map-wrap:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* Fullscreen Mode */
+.map-wrap.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  border-radius: 0;
+  border: none;
+}
+
+/* Entry Animation */
+@keyframes map-enter {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.map-wrap.animate-in {
+  animation: map-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 1001;
+  background: #1a1a1a;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.close-button:hover {
+  background: #ff3333;
+  border-color: #ff3333;
+  transform: scale(1.1);
+}
+
+/* Overlay Styling */
+.overlay-fullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.map-wrap:hover .overlay-fullscreen {
+  opacity: 1;
+}
+
+.overlay-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: white;
+  background: #1a1a1a;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+}
+
+.overlay-fullscreen:hover .overlay-text {
+  transform: scale(1.05);
+}
+
+/* --- SEARCH BAR --- */
+.map-search-container {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  z-index: 1002;
+  width: 380px;
+  max-width: calc(100% - 100px);
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  position: relative; 
+}
+
+.search-icon {
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.map-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: #ffffff;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  padding: 8px 0;
+}
+
+.map-search-input::placeholder {
+  color: #888888;
+}
+
+/* --- SUGGESTIONS DROPDOWN --- */
+.suggestions-list {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  background: rgba(26, 26, 26, 0.95); 
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.suggestions-list::-webkit-scrollbar {
+  display: none;
+}
+
+.suggestion-item {
+  padding: 12px 24px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- CUSTOM POPUP STYLING --- */
+
+/* 1. Reset MapLibre's default white container */
+.maplibregl-popup-content {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* 2. Style the arrow tip to match the dark background */
+.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+    border-bottom-color: #1a1a1a !important;
+}
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+    border-top-color: #1a1a1a !important;
+}
+
+/* 3. The Main Dark Card Container */
+.pfas-popup {
+  background-color: #1a1a1a; /* Dark Grey Background */
+  color: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  font-family: 'Inter', sans-serif;
+  min-width: 260px;
+}
+
+/* Header Section */
+.popup-header {
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.label-subtle {
+  color: #888;
+}
+
+.label-hotspot {
+  color: #FF5252; /* Hotspot Red */
+}
+
+/* Title */
+.popup-title {
+  font-family: 'Playfair Display', serif; /* Matching your site fonts */
+  font-size: 1.3rem;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+  color: #fff;
+}
+
+/* Grid for Details */
+.popup-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  row-gap: 4px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+.grid-label {
+  color: #aaa;
+  font-weight: 500;
+}
+
+.grid-value {
+  color: #fff;
+}
+
+/* Metrics Section (Bottom) */
+.popup-metrics {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+  margin-top: 8px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.metric-label {
+  color: #ccc;
+  font-weight: 600;
+}
+
+.metric-value {
+  color: #fff;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}

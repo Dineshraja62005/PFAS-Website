@@ -1,0 +1,68 @@
+/* src/components/sections/ThirdSection/Accumulation.css */
+
+.particle-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Above background glow, below text */
+  overflow: hidden; /* Prevent particles spilling out */
+}
+
+.particle {
+  position: absolute;
+  width: 6px; /* Adjust size */
+  height: 6px; /* Adjust size */
+  background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent white */
+  border-radius: 50%;
+  opacity: 0; /* Start invisible */
+  /* Remove transform from here if setting inline */
+  /* transform: scale(0); */
+  animation-fill-mode: forwards; /* Keep final state */
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5); /* Optional glow */
+}
+
+/* Keyframe animation for appearing and pulsing */
+@keyframes appear-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.5); /* Start small */
+  }
+  50% {
+    opacity: 0.8; /* Become visible */
+    transform: scale(1.1); /* Pulse slightly larger */
+  }
+  100% {
+    opacity: 0.6; /* Settle at final opacity */
+    transform: scale(1); /* Settle at final scale (or the inline scale) */
+  }
+}
+
+
+/* Only apply animation when container has 'animate-particles' class */
+.animate-particles .particle {
+  animation-name: appear-pulse;
+  animation-duration: 2s; /* Duration for one particle's appearance + pulse */
+  animation-timing-function: ease-out;
+  /* animation-iteration-count: 1; No longer infinite */
+}
+
+/* Optional: Add a slight continuous pulse after appearing */
+/* This requires a second animation or modifying the first one */
+/* Example modification:
+@keyframes appear-pulse-stay {
+  0% { opacity: 0; transform: scale(0.5); }
+  25% { opacity: 0.8; transform: scale(1.1); }
+  50% { opacity: 0.6; transform: scale(1); }
+  75% { opacity: 0.7; transform: scale(1.05); } // Slight pulse
+  100% { opacity: 0.6; transform: scale(1); } // Return to base
+}
+.animate-particles .particle {
+  animation-name: appear-pulse-stay;
+  animation-duration: 4s; // Adjust duration
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite; // Keep pulsing
+}
+Adjust animation-delay in JS accordingly if changing duration significantly.
+*/

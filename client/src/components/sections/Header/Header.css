@@ -1,0 +1,367 @@
+.site-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1rem 3rem;
+    box-sizing: border-box;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.4s ease, transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.site-header.scrolled {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-header.nav-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  /* The transition property is no longer needed here */
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* This now controls the space from the screen edges */
+}
+
+.logo-link {
+    display: block;
+}
+
+.logo-image {
+    height: 55px;
+    /* Adjust size as needed */
+    display: block;
+}
+
+.main-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 5px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease-in-out;
+}
+
+.main-nav a:hover::after {
+    width: 100%;
+}
+
+.button-primary {
+    background: white;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.button-primary:hover {
+    transform: scale(1.05);
+}
+
+/* --- Mobile Responsiveness --- */
+.mobile-nav-toggle {
+    display: none;
+    /* Hide hamburger by default on desktop */
+}
+
+@media (max-width: 768px) {
+
+    /* Hide the links and button on mobile */
+    .main-nav,
+    .header-actions {
+        display: none;
+    }
+
+    /* Show the hamburger button on mobile */
+    .mobile-nav-toggle {
+        display: block;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Add this inside your @media (max-width: 768px) block */
+
+    /* When the menu is open, make the nav and actions visible again */
+    .mobile-menu-open .main-nav,
+    .mobile-menu-open .header-actions {
+        display: flex;
+    }
+
+    /* Style the navigation as a fullscreen overlay */
+    .mobile-menu-open .main-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+
+        /* Center the links */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Style the links for the overlay */
+    .mobile-menu-open .main-nav ul {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .mobile-menu-open .main-nav a {
+        font-size: 1.8rem;
+    }
+
+    /* Position the button in the overlay */
+    .mobile-menu-open .header-actions {
+        position: fixed;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Add this inside your @media (max-width: 768px) block */
+
+    .mobile-menu-open .mobile-nav-toggle {
+        position: fixed;
+        /* Lifts the button to a new layer */
+        top: 25px;
+        right: 2rem;
+        /* Aligns it with your page's side padding */
+        z-index: 1100;
+        /* Ensures it's on top of the menu overlay */
+    }
+}
+
+/* --- LOGO HOVER EFFECT --- */
+
+/* 1. Set up the container for positioning and layering */
+.logo-link {
+    position: relative;
+    isolation: isolate;
+    display: block;
+
+    /* Make the container larger to hold the background */
+    width: 120px;
+    height: 75px;
+}
+
+/* 2. Position all images inside the link on top of each other */
+.logo-image {
+    position: absolute;
+    /* 1. Move the image's top-left corner to the center of the container */
+    top: 50%;
+    left: 50%;
+
+    /* 2. Shift the image back by half its own width and height */
+    transform: translate(-50%, -50%);
+
+    /* Keep the transition for the smooth fade */
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* 3. Hide the GIF by default */
+.logo-gif {
+    opacity: 0;
+}
+
+/* 4. On hover, hide the static image and show the GIF */
+.logo-link:hover .logo-static {
+    opacity: 0;
+}
+
+.logo-link:hover .logo-gif {
+    opacity: 1;
+}
+
+/* 5. Create the background box using a pseudo-element */
+.logo-link::before {
+    content: '';
+    position: absolute;
+
+    /* Make the box fill the new container size */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    /* Style the box */
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+
+    /* Place the box behind the images */
+    z-index: -1;
+
+    /* Hide the box by default with a nice animation */
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* 6. On hover, show the background box */
+.logo-link:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* --- Temporary Debugging Styles --- */
+.header-container {
+    /* Semi-transparent yellow */
+    padding: 0 50px;
+    /* Use a fixed 50px for the test */
+}
+
+/* --- HEADER ENTRANCE ANIMATION --- */
+
+/* 1. Define a new animation that slides down */
+@keyframes fade-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px); /* Start 30px up */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* End at its original position */
+  }
+}
+
+/* 2. Apply the animation to all header components */
+.logo-link,
+.main-nav,
+.header-actions {
+  /* Start the elements as invisible */
+  opacity: 0; 
+  
+  /* Apply the new animation */
+  animation-name: fade-slide-down;
+  animation-duration: 0.8s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+/* 3. Stagger the start times for a cascade effect */
+.main-nav {
+  animation-delay: 0.2s;
+}
+
+.header-actions {
+  animation-delay: 0.4s;
+}
+
+/* Add this to the end of Header.css */
+.nav-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* ... existing styles ... */
+
+/* --- EASTER EGG POPUP STYLES --- */
+.easter-egg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999; /* On top of everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.easter-egg-modal {
+    background: #1a1a1a;
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #333;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    color: white;
+    animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.easter-egg-modal h3 {
+    margin-top: 0;
+    color: #2E8B57; /* Matches your theme accent */
+}
+
+.easter-egg-modal input {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background: #333;
+    color: white;
+    box-sizing: border-box; /* Fixes padding width issue */
+}
+
+.easter-egg-modal button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.easter-egg-modal button[type="submit"] {
+    background: #2E8B57;
+    color: white;
+}
+
+.easter-egg-modal .close-egg {
+    background: transparent;
+    color: #888;
+    border: 1px solid #444;
+}
+
+.easter-egg-modal .error-msg {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
