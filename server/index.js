@@ -25,9 +25,17 @@ pool.connect((err) => {
     else console.log('Connected to PostgreSQL Database');
 });
 
+// --- AUTHENTICATION CREDENTIALS (MOCK) ---
+// In a real production app, store these in your .env file
+const ACCESS_KEY = "#33";
+const ADMIN_USER = {
+    username: "admin",
+    password: "ModexPassword123!" 
+};
+
 // --- ROUTES ---
 
-// GET All Sites (Real DB Query)
+// 1. GET All Sites
 app.get('/api/sites', async (req, res) => {
     try {
         // Query to get data and convert PostGIS geometry to GeoJSON
@@ -57,18 +65,25 @@ app.get('/api/sites', async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
-// --- NEW CRUD ROUTES ---
 
-// 1. POST: Add a new Contamination Site
+// 2. POST: Add a new Contamination Site
 app.post('/api/sites', async (req, res) => {
     try {
         const { name, pfas_level, lat, lng } = req.body;
+
+        // Validation: Ensure all fields exist and are valid numbers
+        if (!name || !pfas_level || !lat || !lng) {
+            return res.status(400).json({ error: "All fields (name, pfas_level, lat, lng) are required." });
+        }
+        if (isNaN(pfas_level) || isNaN(lat) || isNaN(lng)) {
+            return res.status(400).json({ error: "Level, Latitude, and Longitude must be numbers." });
+        }
         
         // Insert into Postgres using PostGIS for location
         const query = `
             INSERT INTO contamination_sites (name, pfas_level, location)
             VALUES ($1, $2, ST_SetSRID(ST_MakePoint($4, $3), 4326))
-            RETURNING *;
+            RETURNING id, name, pfas_level;
         `;
         
         const newSite = await pool.query(query, [name, pfas_level, lat, lng]);
@@ -78,23 +93,8 @@ app.post('/api/sites', async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-// --- AUTH ROUTE ---
-// Verify Admin Code securely on the server
-app.post('/api/auth/verify', (req, res) => {
-    const { code } = req.body;
-    
-    // In a real app, store this "#33" in a .env file (process.env.ADMIN_CODE)
-    // But even hardcoded HERE, it is hidden from the user.
-    const ADMIN_SECRET = "#33"; 
 
-    if (code === ADMIN_SECRET) {
-        res.json({ success: true, message: "Welcome Admin" });
-    } else {
-        res.status(401).json({ success: false, message: "Invalid Code" });
-    }
-});
-
-// 2. DELETE: Remove a Site by ID
+// 3. DELETE: Remove a Site by ID
 app.delete('/api/sites/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -105,6 +105,30 @@ app.delete('/api/sites/:id', async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+
+// --- AUTH ROUTES ---
+
+// 4. Access Key Verification (Gatekeeper Route)
+app.post('/api/auth/verify-key', (req, res) => {
+    const { code } = req.body;
+    if (code === ACCESS_KEY) {
+        res.json({ success: true, message: "Access Granted" });
+    } else {
+        res.status(401).json({ success: false, message: "Invalid Access Key" });
+    }
+});
+
+// 5. Admin Login (Authentication Route)
+app.post('/api/auth/login', (req, res) => {
+    const { username, password } = req.body;
+
+    if (username === ADMIN_USER.username && password === ADMIN_USER.password) {
+        res.json({ success: true, message: "Login Successful" });
+    } else {
+        res.status(401).json({ success: false, message: "Invalid Credentials" });
+    }
+});
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

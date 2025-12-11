@@ -11,7 +11,7 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
     // --- EASTER EGG STATE ---
     const [clickCount, setClickCount] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
-    const [secretCode, setSecretCode] = useState('');
+    const [accessKey, setAccessKey] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
 
     const clickTimer = useRef(null);
@@ -61,24 +61,26 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
         }
     };
 
-    const handleCodeSubmit = async (e) => {
+    const handleKeySubmit = async (e) => {
         e.preventDefault();
 
         try {
-            // Send the code to the backend for verification
-            const response = await fetch('http://localhost:5000/api/auth/verify', {
+            // Send the key to the backend for verification (Gatekeeper check)
+            const response = await fetch('http://localhost:5000/api/auth/verify-key', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code: secretCode })
+                body: JSON.stringify({ code: accessKey })
             });
 
             const data = await response.json();
 
             if (data.success) {
                 setShowPopup(false);
-                navigate('/admin');
+                setAccessKey(''); // Clear the key for security
+                // Redirect to the Login page for actual authentication
+                navigate('/login');
             } else {
-                setErrorMsg('Access Denied.');
+                setErrorMsg('Access Denied. Invalid Key.');
                 setTimeout(() => setErrorMsg(''), 2000);
             }
         } catch (error) {
@@ -111,17 +113,17 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
             {showPopup && (
                 <div className="easter-egg-overlay">
                     <div className="easter-egg-modal">
-                        <h3>Admin Access</h3>
-                        <p>Enter the secret code to proceed.</p>
-                        <form onSubmit={handleCodeSubmit}>
+                        <h3>Restricted Access</h3>
+                        <p>Enter the Access Key to proceed to login.</p>
+                        <form onSubmit={handleKeySubmit}>
                             <input
                                 type="password"
-                                value={secretCode}
-                                onChange={(e) => setSecretCode(e.target.value)}
-                                placeholder="Code"
+                                value={accessKey}
+                                onChange={(e) => setAccessKey(e.target.value)}
+                                placeholder="Access Key"
                                 autoFocus
                             />
-                            <button type="submit">Unlock</button>
+                            <button type="submit">Proceed</button>
                         </form>
                         {errorMsg && <div className="error-msg">{errorMsg}</div>}
                         <button className="close-egg" onClick={() => setShowPopup(false)}>Cancel</button>
