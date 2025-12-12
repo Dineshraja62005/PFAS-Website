@@ -1,22 +1,28 @@
 /* src/components/sections/FourthSection/FourthSection.css */
 
 /* --- 1. THE MAIN SCROLL TRACK --- */
+/* This determines the total scroll distance (4 slides x 100vh) */
 .fourth-section-scroll-container {
     height: 400vh;
     position: relative;
     background-color: #000000;
+    /* Pure Black Theme */
     z-index: 10;
+
+    /* Critical for scroll snapping logic */
     scroll-snap-align: start;
     scroll-snap-stop: always;
 }
 
 /* --- 2. THE STICKY VIEWPORT --- */
+/* This locks the content to the screen while you scroll down */
 .sticky-viewport {
     position: sticky;
     top: 0;
     height: 100vh;
     width: 100%;
     overflow: hidden;
+    /* Hides horizontal overflow */
     display: flex;
     flex-direction: column;
     background: #000000;
@@ -29,7 +35,8 @@
     left: 0;
     width: 100%;
     padding: 1.5rem 2rem;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.85);
+    /* Dark background */
     z-index: 20;
     display: flex;
     flex-direction: column;
@@ -43,23 +50,25 @@
     /* Modern Smooth Font */
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 2.2rem;
-    /* Adjusted for better proportion */
     font-weight: 700;
     margin: 0 0 1rem 0;
     letter-spacing: -0.02em;
-    /* Tighter tracking for modern look */
 
+    /* Subtle Metallic Gradient */
     background: linear-gradient(180deg, #ffffff 0%, #b0b0b0 100%);
     -webkit-background-clip: text;
     background-clip: text;
+    /* Fixes warning */
     -webkit-text-fill-color: transparent;
+
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
 }
 
+/* Progress Bar */
 .progress-bar-container {
     width: 100%;
     max-width: 400px;
     height: 3px;
-    /* Sleeker line */
     background: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
 }
@@ -67,6 +76,7 @@
 .progress-bar-fill {
     height: 100%;
     background: #00ff9d;
+    /* Neon Green */
     transform-origin: left;
     border-radius: 2px;
     box-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
@@ -78,14 +88,17 @@
     display: flex;
     height: 100%;
     width: 400%;
+    /* 4 Slides = 400% width */
     will-change: transform;
+    position: relative;
 }
 
-/* --- 5. INDIVIDUAL SLIDES --- */
+/* --- 5. INDIVIDUAL SLIDE CONTAINER --- */
 .timeline-slide {
     width: 100vw;
     height: 100vh;
     flex-shrink: 0;
+    /* Prevents squishing */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -95,7 +108,7 @@
     border-right: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-/* Subtle Gradients */
+/* Subtle Radial Backgrounds for Depth */
 .timeline-slide:nth-child(1) {
     background: radial-gradient(circle at center, #111 0%, #000 70%);
 }
@@ -112,69 +125,184 @@
     background: radial-gradient(circle at center, #0f0f0f 0%, #000 70%);
 }
 
-/* --- 6. SLIDE CONTENT BOX --- */
+/* --- 6. SLIDE CONTENT BOX (GRID LAYOUT) --- */
 .slide-content {
-    max-width: 900px;
-    /* Optimal reading width */
-    width: 100%;
-    color: #e0e0e0;
-    z-index: 2;
-    background: rgba(15, 15, 15, 0.6);
+    max-width: 1400px;
+    /* Increased from 1200px */
+    width: 95%;
+    /* Takes up more screen real estate */
+    z-index: 10;
+    background: rgba(15, 15, 15, 0.75);
     padding: 3.5rem;
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(20px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     position: relative;
-    overflow: visible;
-    /* Important so the number doesn't get cut off */
+    overflow: hidden;
 
+    /* Glow Effect */
     box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.8),
-        /* 1. Deep Black Shadow for depth */
-        0 40px 100px -20px rgba(0, 255, 157, 0.25),
-        /* 2. Large Soft Neon Glow (Below) */
+        0 20px 50px rgba(0, 0, 0, 0.9),
+        0 40px 100px -20px rgba(0, 255, 157, 0.2),
         0 0 0 1px rgba(0, 255, 157, 0.1);
-    /* 3. Subtle Border Outline Glow */
 
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    /* Text | Image */
+    gap: 4rem;
+    /* More spacing between columns */
+    align-items: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    /* Smooth hover effect */
 }
 
 .slide-content:hover {
-    transform: translateY(-5px); /* Floats up slightly */
-    box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.9),
-        0 50px 120px -20px rgba(0, 255, 157, 0.4), /* Brighter Glow */
+    transform: translateY(-5px);
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 1),
+        0 50px 120px -20px rgba(0, 255, 157, 0.35),
         0 0 0 1px rgba(0, 255, 157, 0.2);
 }
 
-/* --- 7. TYPOGRAPHY UPDATES --- */
+/* --- NEW: TRAVELING GLOW LINE --- */
+/* --- THE MODERN GLOW LINE --- */
+.connector-line-container {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 4px; /* Sleek thin line */
+    transform: translateY(-50%);
+    z-index: 1; /* Behind slides */
+    pointer-events: none;
+}
 
-/* Slide Number - Adjusted to fit better */
+/* 1. The Track (Background) */
+.connector-line-base {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+/* 2. The Beam (Growing Line) */
+.connector-line-beam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: left; /* Grow from left to right */
+    
+    /* Modern Gradient: Fades from transparent -> Solid Neon */
+    background: linear-gradient(90deg, 
+        rgba(0, 255, 157, 0) 0%, 
+        rgba(0, 255, 157, 0.5) 50%, 
+        rgba(0, 255, 157, 1) 100%
+    );
+    
+    /* Soft Glow around the beam */
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
+    will-change: transform;
+}
+
+/* 3. The Spark (Moving Head) */
+.connector-line-spark {
+    position: absolute;
+    top: 50%;
+    width: 0; /* Wrapper has no width, just position */
+    height: 0;
+    z-index: 2;
+    will-change: left;
+    filter: drop-shadow(0 0 20px rgba(0, 255, 157, 0.8));
+}
+
+/* The White Hot Core */
+.spark-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ffffff;
+}
+
+/* The Outer Halo */
+.spark-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(0,255,157,0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse-spark 1s infinite alternate;
+}
+
+@keyframes pulse-spark {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.4; }
+}
+
+/* --- SLIDE CONTENT (Ensure it sits ON TOP of the beam) --- */
+.slide-content {
+    /* ... keep your existing layout/size styles ... */
+    max-width: 1400px;
+    width: 95%;
+    
+    /* Important Z-Index adjustment */
+    z-index: 10; 
+    background: rgba(10, 10, 10, 0.9); /* Opaque enough to hide the line behind it */
+    position: relative;
+    
+    /* Grid and other styles... */
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 3.5rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    
+    /* Box Shadow Glow */
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.9),
+        0 40px 100px -20px rgba(0, 255, 157, 0.15), 
+        0 0 0 1px rgba(0, 255, 157, 0.1);
+        
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* --- 7. LEFT COLUMN: TEXT --- */
+.slide-text {
+    position: relative;
+    z-index: 2;
+    text-align: left;
+}
+
+/* Huge Background Number */
 .slide-number {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 8rem;
-    /* Reduced from 12rem so it doesn't overflow */
     font-weight: 800;
-    color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.04);
     position: absolute;
-    top: -3.5rem;
-    /* Pulled closer to the box */
-    left: -1rem;
-    /* Pulled closer to the edge */
+    top: -5rem;
+    left: -2rem;
     line-height: 1;
     z-index: -1;
     pointer-events: none;
     letter-spacing: -5px;
 }
 
-/* Headings - Modern Sans Serif */
+/* Headings */
 .timeline-slide h3 {
     font-family: 'Inter', system-ui, sans-serif;
-    /* Changed to match theme */
     font-size: 2.8rem;
-    /* Reduced from 4rem */
     font-weight: 700;
     color: #ffffff;
     margin: 0 0 0.5rem 0;
@@ -185,9 +313,7 @@
 /* Highlight Text */
 .highlight-text {
     font-family: 'Inter', monospace;
-    /* Monospace adds a technical feel */
     font-size: 1rem;
-    /* Reduced for elegance */
     color: #00ff9d;
     font-weight: 600;
     text-transform: uppercase;
@@ -198,63 +324,101 @@
     padding-bottom: 5px;
 }
 
-/* Body Text - Improved Readability */
+/* Body Text */
 .timeline-slide p,
 .timeline-slide li {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 1.15rem;
-    /* Reduced from 1.4rem */
     line-height: 1.6;
     color: #c0c0c0;
     margin-bottom: 1.2rem;
-    font-weight: 400;
 }
 
-/* --- 8. VISUAL ELEMENTS --- */
+/* --- 8. RIGHT COLUMN: VISUALS --- */
+.slide-visual {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: #111;
+}
+
+.slide-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease, filter 0.5s ease;
+    filter: grayscale(30%) contrast(1.1);
+}
+
+.slide-content:hover .slide-visual img {
+    transform: scale(1.05);
+    filter: grayscale(0%) contrast(1.1);
+}
+
+/* Caption Overlay */
+.visual-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #00ff9d;
+    font-family: 'Inter', monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-top: 1px solid rgba(0, 255, 157, 0.3);
+    backdrop-filter: blur(4px);
+}
+
+/* --- 9. INNER VISUAL ELEMENTS (Diagrams, Grids) --- */
 
 /* Flow Diagram */
 .flow-diagram {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.8rem;
     align-items: center;
-    margin: 2rem 0;
+    margin: 1.5rem 0;
     font-family: 'Inter', monospace;
 }
 
 .flow-step {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
     color: #fff;
 }
 
 .arrow {
     color: #00ff9d;
+    font-size: 1.2rem;
     opacity: 0.8;
 }
 
 /* Impact Grid */
 .impact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
 }
 
 .impact-item {
     background: rgba(255, 80, 80, 0.08);
     border: 1px solid rgba(255, 80, 80, 0.2);
-    padding: 1rem;
+    padding: 0.8rem 1rem;
     font-size: 1rem;
     border-radius: 8px;
     color: #ffcccc;
     font-weight: 500;
-    display: flex;
-    align-items: center;
-    font-family: 'Inter', sans-serif;
 }
 
 /* Stat Box */
@@ -263,14 +427,11 @@
     padding: 1.5rem;
     border-left: 4px solid #00ff9d;
     background: linear-gradient(90deg, rgba(0, 255, 157, 0.05), transparent);
-    border-radius: 0 8px 8px 0;
 }
 
 .stat-number {
-    font-family: 'Inter', sans-serif;
     display: block;
     font-size: 3.5rem;
-    /* Reduced from 5rem */
     font-weight: 800;
     color: #fff;
     line-height: 1;
@@ -281,28 +442,46 @@
     font-size: 1rem;
     text-transform: uppercase;
     color: #00ff9d;
-    letter-spacing: 1px;
     font-weight: 600;
 }
 
-/* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
+/* --- 10. RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 1024px) {
     .slide-content {
-        padding: 2rem;
-        max-width: 90%;
+        grid-template-columns: 1fr;
+        /* Stack vertically on tablet/mobile */
+        gap: 2rem;
+        padding: 2.5rem;
+        max-width: 95%;
     }
 
-    .timeline-slide h3 {
-        font-size: 2rem;
+    .slide-visual {
+        height: 250px;
+        order: -1;
+        /* Image moves to top */
     }
 
     .slide-number {
         font-size: 5rem;
-        top: -2.5rem;
+        top: -2rem;
         left: 0;
     }
 
-    .impact-grid {
-        grid-template-columns: 1fr;
+    .timeline-slide h3 {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .slide-content {
+        padding: 1.5rem;
+    }
+
+    .slide-visual {
+        height: 180px;
     }
 }
