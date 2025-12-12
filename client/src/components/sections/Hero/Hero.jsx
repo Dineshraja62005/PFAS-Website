@@ -13,9 +13,10 @@ const Hero = () => {
                 <p>An initiative to track PFAS contamination across India.</p>
             </div>
             <ScrollLink
-                to="about-section" // Changed from "main-content" to the correct ID
+                to="about-section" 
                 smooth={true}
                 duration={1000}
+                containerId="scroll-container" // ADDED: Required because your body doesn't scroll, this div does
                 className="scroll-down-link"
                 aria-label="Scroll to main content"
             >

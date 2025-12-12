@@ -16,8 +16,6 @@ import Login from './components/pages/Login';
 
 // ... MainApp Component code stays the same ...
 const MainApp = () => {
-  // ... existing MainApp logic ...
-  // (Copy the MainApp logic from your previous file here)
   const [isNavVisible, setIsNavVisible] = useState(true);
   const heroRef = useRef(null);
   const location = useLocation();
@@ -44,9 +42,13 @@ const MainApp = () => {
   return (
     <>
       <Header isNavVisible={isNavVisible} />
+      {/* We reference this ID in the Hero component */}
       <div className="scroll-container" id="scroll-container" ref={scrollContainerRef}>
         <div id="hero-section" ref={heroRef} className="scroll-section"><Hero /></div>
-        <div className="scroll-section"><SplitSection /></div>
+        
+        {/* ADDED: id="about-section" so the link has a target */}
+        <div id="about-section" className="scroll-section"><SplitSection /></div>
+        
         <div className="scroll-section"><ThirdSection /></div>
         <div>
           <FourthSection scrollContainerRef={scrollContainerRef} />

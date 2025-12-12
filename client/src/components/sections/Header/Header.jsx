@@ -100,8 +100,28 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
 
                     <nav className="main-nav">
                         <ul>
-                            <li><ScrollLink to="hero-section" smooth={true} duration={1000}>Home</ScrollLink></li>
-                            <li><ScrollLink to="map-section" smooth={true} duration={1000}>Map</ScrollLink></li>
+                            <li>
+                                <ScrollLink 
+                                    to="hero-section" 
+                                    smooth={true} 
+                                    duration={1000} 
+                                    href="#hero-section"
+                                    containerId="scroll-container" // Added this
+                                >
+                                    Home
+                                </ScrollLink>
+                            </li>
+                            <li>
+                                <ScrollLink 
+                                    to="map-section" 
+                                    smooth={true} 
+                                    duration={1000} 
+                                    href="#map-section"
+                                    containerId="scroll-container" // Added this
+                                >
+                                    Map
+                                </ScrollLink>
+                            </li>
                         </ul>
                     </nav>
                     <div className="header-actions">

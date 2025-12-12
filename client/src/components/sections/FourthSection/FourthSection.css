@@ -251,7 +251,7 @@
 .slide-content {
     /* ... keep your existing layout/size styles ... */
     max-width: 1400px;
-    width: 95%;
+    width: 100%;
     
     /* Important Z-Index adjustment */
     z-index: 10; 
