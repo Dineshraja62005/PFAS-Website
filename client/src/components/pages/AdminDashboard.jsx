@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     const navigate = useNavigate();
     const [sites, setSites] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -27,7 +28,7 @@ const AdminDashboard = () => {
 
     const fetchSites = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/sites');
+            const response = await fetch(`${API_URL}/api/sites`);
             const data = await response.json();
             const sortedSites = (data.features || []).sort((a, b) => a.properties.id - b.properties.id);
             setSites(sortedSites);
@@ -95,7 +96,7 @@ const AdminDashboard = () => {
     const handleDelete = async (id) => {
         if (!window.confirm(`Delete Site #${id}?`)) return;
         try {
-            await fetch(`http://localhost:5000/api/sites/${id}`, { method: 'DELETE' });
+            await fetch(`${API_URL}/api/sites/${id}`, { method: 'DELETE' });
             fetchSites();
             if (editingId === id) resetForm();
         } catch (err) { alert('Error deleting site'); }
@@ -118,8 +119,8 @@ const AdminDashboard = () => {
         };
 
         const url = editingId 
-            ? `http://localhost:5000/api/sites/${editingId}`
-            : 'http://localhost:5000/api/sites';
+            ? `${API_URL}/api/sites/${editingId}`
+            : `${API_URL}/api/sites`;
         const method = editingId ? 'PUT' : 'POST';
 
         try {

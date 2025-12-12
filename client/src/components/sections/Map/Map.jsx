@@ -19,12 +19,13 @@ export default function Map({ isStandalone = false }) {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const apiKey = 'Z5URJ8EPi1Ep6uxksueX';
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   // --- 1. FETCH DATA ---
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/sites');
+        const response = await fetch(`${API_URL}/api/sites`);
         const data = await response.json();
         setPfasData(data);
       } catch (error) { console.error("Error fetching data:", error); }
