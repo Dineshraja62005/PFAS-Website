@@ -1,0 +1,69 @@
+/* src/components/animations/Nature/NatureLottie.css */
+
+.nature-lottie-container {
+    position: absolute;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    pointer-events: none; 
+    z-index: 1; 
+    display: flex;
+    flex-direction: column;
+}
+
+.nature-pane {
+    flex: 1; 
+    position: relative;
+    overflow: hidden;
+}
+
+.lottie-item {
+    position: absolute;
+}
+
+/* --- WHITE PANE STYLES --- */
+
+.cherry-wrapper {
+    top: -20%;       /* Pull up so the "source" is off-screen */
+    right: -10%;     /* Pull right to anchor to the corner */
+    width: 600px;    /* Much larger to act as a ceiling/canopy */
+    height: 600px;
+    opacity: 1;
+    transform: rotate(15deg); /* Angle it naturally into the frame */
+    filter: drop-shadow(5px 10px 20px rgba(0,0,0,0.05)); /* Subtle depth */
+}
+
+/* --- DARK PANE STYLES --- */
+
+/* 1. Rain Effect (Full Coverage) */
+.rain-wrapper {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6; /* Semi-transparent so text is readable */
+    mix-blend-mode: screen; /* Blends rain nicely with dark bg */
+    transform: scale(1.2); /* Slight zoom to cover edges */
+}
+
+/* 2. Lightning Effect */
+.lightning-wrapper {
+    top: -10%; /* Strike starts off-screen */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px; /* Large dramatic strike */
+    height: 400px;
+    opacity: 0.7;
+    mix-blend-mode: screen; /* Makes the bolt glow */
+    filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.4)); /* Blue glow */
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    .flower-wrapper { width: 120px; height: 120px; left: 2%; }
+    .cherry-wrapper { width: 200px; height: 200px; top: 0%; }
+    
+    .lightning-wrapper {
+        width: 250px;
+        height: 250px;
+    }
+}

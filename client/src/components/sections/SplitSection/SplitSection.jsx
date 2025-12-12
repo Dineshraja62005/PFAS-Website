@@ -3,6 +3,7 @@ import ScrambledText from '../../animations/ScrambledText/ScrambledText';
 import FadingLettersText from '../../animations/FadingLettersText/FadingLettersText';
 import './SplitSection.css';
 import '../DarkPane.css';
+import NatureLottie from '../../animations/Nature/NatureLottie';
 
 const SplitSection = () => {
     const topPaneRef = useRef(null);
@@ -36,17 +37,16 @@ const SplitSection = () => {
 
     return (
         <section className="split-section">
-            {/* The <video> element has been removed from here */}
-
+            <NatureLottie />
             <div id="top-pane" ref={topPaneRef} className="split-pane white-pane">
                 <div className="pane-overlay"></div>
                 <div className={`content-wrapper top-content ${isTopPaneVisible ? 'is-visible' : ''}`}>
                     <p className="animated-text">
-                        Chemicals that <ScrambledText text="never break down" startAnimation={isTopPaneVisible} />
+                        Chemicals <ScrambledText text="engineered to resist" startAnimation={isTopPaneVisible} />
                         <br />
-                        <strong>Accumulating in our <span className="highlight-word">bodies</span></strong>
+                        <strong>Used widely in everyday products</strong>
                         <br />
-                        And the world around us
+                        Designed for modern convenience
                     </p>
                 </div>
             </div>
@@ -55,15 +55,17 @@ const SplitSection = () => {
                 <div className="pane-overlay"></div>
                 <div className={`content-wrapper bottom-content ${isBottomPaneVisible ? 'is-visible' : ''}`}>
                     <p className="animated-text dark-bg-text">
-                        <FadingLettersText text="Disrupting our immune systems" startAnimation={isBottomPaneVisible} />
+                        <FadingLettersText text="But they never truly break down" startAnimation={isBottomPaneVisible} />
                         <br />
-                        <strong>Linked to <span className="focus-pulse-text">health risks</span></strong>
+                        <strong>Accumulating silently in our <span className="focus-pulse-text">bodies</span></strong>
                         <br />
-                        And harming ecosystems
+                        And impacting our environment
                     </p>
                 </div>
             </div>
+
         </section>
+
     );
 };
 

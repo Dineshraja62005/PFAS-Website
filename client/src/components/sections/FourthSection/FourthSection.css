@@ -1,0 +1,308 @@
+/* src/components/sections/FourthSection/FourthSection.css */
+
+/* --- 1. THE MAIN SCROLL TRACK --- */
+.fourth-section-scroll-container {
+    height: 400vh;
+    position: relative;
+    background-color: #000000;
+    z-index: 10;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+/* --- 2. THE STICKY VIEWPORT --- */
+.sticky-viewport {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #000000;
+}
+
+/* --- 3. THE HEADER --- */
+.timeline-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 2rem;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.timeline-header h2 {
+    color: #ffffff;
+    /* Modern Smooth Font */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 2.2rem;
+    /* Adjusted for better proportion */
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.02em;
+    /* Tighter tracking for modern look */
+
+    background: linear-gradient(180deg, #ffffff 0%, #b0b0b0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.progress-bar-container {
+    width: 100%;
+    max-width: 400px;
+    height: 3px;
+    /* Sleeker line */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: #00ff9d;
+    transform-origin: left;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0, 255, 157, 0.5);
+    /* Neon Glow */
+}
+
+/* --- 4. THE HORIZONTAL SLIDER --- */
+.horizontal-slider {
+    display: flex;
+    height: 100%;
+    width: 400%;
+    will-change: transform;
+}
+
+/* --- 5. INDIVIDUAL SLIDES --- */
+.timeline-slide {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5%;
+    box-sizing: border-box;
+    position: relative;
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Subtle Gradients */
+.timeline-slide:nth-child(1) {
+    background: radial-gradient(circle at center, #111 0%, #000 70%);
+}
+
+.timeline-slide:nth-child(2) {
+    background: radial-gradient(circle at center, #0f0f0f 0%, #000 70%);
+}
+
+.timeline-slide:nth-child(3) {
+    background: radial-gradient(circle at center, #111 0%, #000 70%);
+}
+
+.timeline-slide:nth-child(4) {
+    background: radial-gradient(circle at center, #0f0f0f 0%, #000 70%);
+}
+
+/* --- 6. SLIDE CONTENT BOX --- */
+.slide-content {
+    max-width: 900px;
+    /* Optimal reading width */
+    width: 100%;
+    color: #e0e0e0;
+    z-index: 2;
+    background: rgba(15, 15, 15, 0.6);
+    padding: 3.5rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: visible;
+    /* Important so the number doesn't get cut off */
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        /* 1. Deep Black Shadow for depth */
+        0 40px 100px -20px rgba(0, 255, 157, 0.25),
+        /* 2. Large Soft Neon Glow (Below) */
+        0 0 0 1px rgba(0, 255, 157, 0.1);
+    /* 3. Subtle Border Outline Glow */
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Smooth hover effect */
+}
+
+.slide-content:hover {
+    transform: translateY(-5px); /* Floats up slightly */
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.9),
+        0 50px 120px -20px rgba(0, 255, 157, 0.4), /* Brighter Glow */
+        0 0 0 1px rgba(0, 255, 157, 0.2);
+}
+
+/* --- 7. TYPOGRAPHY UPDATES --- */
+
+/* Slide Number - Adjusted to fit better */
+.slide-number {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 8rem;
+    /* Reduced from 12rem so it doesn't overflow */
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.05);
+    position: absolute;
+    top: -3.5rem;
+    /* Pulled closer to the box */
+    left: -1rem;
+    /* Pulled closer to the edge */
+    line-height: 1;
+    z-index: -1;
+    pointer-events: none;
+    letter-spacing: -5px;
+}
+
+/* Headings - Modern Sans Serif */
+.timeline-slide h3 {
+    font-family: 'Inter', system-ui, sans-serif;
+    /* Changed to match theme */
+    font-size: 2.8rem;
+    /* Reduced from 4rem */
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+}
+
+/* Highlight Text */
+.highlight-text {
+    font-family: 'Inter', monospace;
+    /* Monospace adds a technical feel */
+    font-size: 1rem;
+    /* Reduced for elegance */
+    color: #00ff9d;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    border-bottom: 1px solid rgba(0, 255, 157, 0.3);
+    padding-bottom: 5px;
+}
+
+/* Body Text - Improved Readability */
+.timeline-slide p,
+.timeline-slide li {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1.15rem;
+    /* Reduced from 1.4rem */
+    line-height: 1.6;
+    color: #c0c0c0;
+    margin-bottom: 1.2rem;
+    font-weight: 400;
+}
+
+/* --- 8. VISUAL ELEMENTS --- */
+
+/* Flow Diagram */
+.flow-diagram {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    margin: 2rem 0;
+    font-family: 'Inter', monospace;
+}
+
+.flow-step {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    color: #fff;
+}
+
+.arrow {
+    color: #00ff9d;
+    opacity: 0.8;
+}
+
+/* Impact Grid */
+.impact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.impact-item {
+    background: rgba(255, 80, 80, 0.08);
+    border: 1px solid rgba(255, 80, 80, 0.2);
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    color: #ffcccc;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Stat Box */
+.stat-box {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    border-left: 4px solid #00ff9d;
+    background: linear-gradient(90deg, rgba(0, 255, 157, 0.05), transparent);
+    border-radius: 0 8px 8px 0;
+}
+
+.stat-number {
+    font-family: 'Inter', sans-serif;
+    display: block;
+    font-size: 3.5rem;
+    /* Reduced from 5rem */
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.stat-label {
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #00ff9d;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .slide-content {
+        padding: 2rem;
+        max-width: 90%;
+    }
+
+    .timeline-slide h3 {
+        font-size: 2rem;
+    }
+
+    .slide-number {
+        font-size: 5rem;
+        top: -2.5rem;
+        left: 0;
+    }
+
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+}

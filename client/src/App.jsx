@@ -6,6 +6,7 @@ import Hero from './components/sections/Hero/Hero';
 import SplitSection from './components/sections/SplitSection/SplitSection';
 import ThirdSection from './components/sections/ThirdSection/ThirdSection';
 import Map from './components/sections/Map/Map';
+import FourthSection from './components/sections/FourthSection/FourthSection';
 
 // Auth Imports
 import { AuthProvider } from './components/context/AuthContext';
@@ -21,6 +22,7 @@ const MainApp = () => {
   const heroRef = useRef(null);
   const location = useLocation();
   const isMapOpen = location.pathname === '/map';
+  const scrollContainerRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,12 +44,15 @@ const MainApp = () => {
   return (
     <>
       <Header isNavVisible={isNavVisible} />
-      <div className="scroll-container" id="scroll-container">
+      <div className="scroll-container" id="scroll-container" ref={scrollContainerRef}>
         <div id="hero-section" ref={heroRef} className="scroll-section"><Hero /></div>
         <div className="scroll-section"><SplitSection /></div>
         <div className="scroll-section"><ThirdSection /></div>
+        <div>
+          <FourthSection scrollContainerRef={scrollContainerRef} />
+        </div>
         <div className="scroll-section" id="map-section">
-          <Map isStandalone={false} /> 
+          <Map isStandalone={false} />
         </div>
       </div>
       {isMapOpen && <Map isStandalone={true} />}
@@ -61,15 +66,15 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          
+
           {/* Protected Admin Route */}
-          <Route 
-            path="/admin" 
+          <Route
+            path="/admin"
             element={
               <ProtectedRoute>
                 <AdminDashboard />
               </ProtectedRoute>
-            } 
+            }
           />
 
           <Route path="*" element={<MainApp />} />
