@@ -5,6 +5,9 @@ import staticLogo from '../../../assets/logo.svg';
 import animatedLogo from '../../../assets/logo-animated.gif';
 import './Header.css';
 
+// 1. ADD THIS LINE (Same as you did in Login.jsx)
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const Header = React.forwardRef(({ isNavVisible }, ref) => {
     const navigate = useNavigate();
 
@@ -37,7 +40,6 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
 
         if (e.shiftKey) {
             // --- ADMIN MODE: Shift + Click ---
-            // If user was previously clicking without shift (pending redirect), cancel it.
             if (clickTimer.current) clearTimeout(clickTimer.current);
 
             const newCount = clickCount + 1;
@@ -49,15 +51,12 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
             }
         } else {
             // --- USER MODE: Normal Click ---
-            // If they let go of Shift, reset the secret count
             setClickCount(0);
-
-            // Debounce the redirect to prevent accidental double-opening
             if (clickTimer.current) clearTimeout(clickTimer.current);
 
             clickTimer.current = setTimeout(() => {
                 window.open("https://www.honeybadger.com/", "_blank");
-            }, 300); // 300ms delay for smoother UX
+            }, 300); 
         }
     };
 
@@ -65,8 +64,10 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
         e.preventDefault();
 
         try {
-            // Send the key to the backend for verification (Gatekeeper check)
-            const response = await fetch('http://localhost:5000/api/auth/verify-key', {
+            // 2. UPDATE THIS FETCH CALL
+            // Old: fetch('http://localhost:5000/api/auth/verify-key', ...
+            // New:
+            const response = await fetch(`${API_URL}/api/auth/verify-key`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ code: accessKey })
@@ -76,8 +77,7 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
 
             if (data.success) {
                 setShowPopup(false);
-                setAccessKey(''); // Clear the key for security
-                // Redirect to the Login page for actual authentication
+                setAccessKey(''); 
                 navigate('/login');
             } else {
                 setErrorMsg('Access Denied. Invalid Key.');
@@ -106,7 +106,7 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
                                     smooth={true} 
                                     duration={1000} 
                                     href="#hero-section"
-                                    containerId="scroll-container" // Added this
+                                    containerId="scroll-container" 
                                 >
                                     Home
                                 </ScrollLink>
@@ -117,7 +117,7 @@ const Header = React.forwardRef(({ isNavVisible }, ref) => {
                                     smooth={true} 
                                     duration={1000} 
                                     href="#map-section"
-                                    containerId="scroll-container" // Added this
+                                    containerId="scroll-container"
                                 >
                                     Map
                                 </ScrollLink>
